@@ -1,0 +1,58 @@
+version: '3.8'
+
+networks:
+  my-contacts:
+    driver: bridge 
+
+services:
+  frontend:
+    image: frontend:latest
+    depends_on:
+      - "api"
+    build: 
+      context: frontend/.
+      dockerfile: debug.dockerfile
+    ports: 
+      - "4200:4200"
+  api:
+    image: api:latest
+    depends_on:
+      - "postgres"
+    build:
+      context: WebApi/.
+      dockerfile: debug.dockerfile
+    ports:
+      - "8000:80"     
+    environment:
+      ConnectionStrings_DefaultConnection: "host=postgres;port=5432;database=contactdb;username=root;password=root"
+    networks:
+      - my-contacts  
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: contactdb
+    volumes:
+      - dbdata1:/var/lib/postgresql/data
+      # - ./dbscripts/seed.sql :/docker-entrypoint-initdb.d/seed.sql
+    ports:
+      - "5432:5432"
+    networks:
+      - my-contacts  
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: nitin27may@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    volumes:
+      - dbadmin:/var/lib/postgresql/dbadmin
+    ports:
+      - "5050:80"
+    networks:
+      - my-contacts 
+volumes:
+  dbdata1:
