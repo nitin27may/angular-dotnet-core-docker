@@ -15,6 +15,7 @@ using Microsoft.OpenApi.Models;
 using WebApi.Data.Helper;
 using WebApi.Data.Repository;
 using WebApi.Helpers;
+using WebApi.Models;
 
 namespace WebApi
 {
@@ -32,16 +33,18 @@ namespace WebApi
         {
 
             services.AddControllers();
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApi", Version = "v1" });
             });
+
             services.AddDbContext<DataContext>(p => p.UseNpgsql(Configuration.GetSection("AppSettings:ConnectionStrings:DefaultConnection").Value));
             services.AddScoped<IUserRepository, UserRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger logger)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             // app.ConfigureExceptionHandler(logger);
             if (env.IsDevelopment())

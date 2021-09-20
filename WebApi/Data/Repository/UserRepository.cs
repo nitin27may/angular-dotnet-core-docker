@@ -37,6 +37,8 @@ namespace WebApi.Data.Repository
         })
            );
             user.Password = passwordHasher.HashPassword(user, user.Password);
+            user.CreatedDate = DateTime.Now;
+            user.ModifiedDate = DateTime.Now;
             await _dataContext.Users.AddAsync(user);
             await _dataContext.SaveChangesAsync();
 
@@ -102,6 +104,7 @@ namespace WebApi.Data.Repository
 
         public async Task<User> Update(User user)
         {
+            user.ModifiedDate = DateTime.Now;
             _dataContext.Users.Update(user);
             await _dataContext.SaveChangesAsync();
             return user;

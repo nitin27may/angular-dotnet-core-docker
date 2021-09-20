@@ -14,5 +14,6 @@ namespace WebApi.Data.Helper
 
         }
         public DbSet<User> Users { get; set; }
+        public DbSet<Contact> Contacts { get; set; }
     }
 }
