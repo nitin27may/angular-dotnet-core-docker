@@ -35,7 +35,7 @@ services:
       POSTGRES_PASSWORD: root
       POSTGRES_DB: contactdb
     volumes:
-      - dbdata1:/var/lib/postgresql/data
+      - dbdata:/var/lib/postgresql/data
       # - ./dbscripts/seed.sql :/docker-entrypoint-initdb.d/seed.sql
     ports:
       - "5432:5432"
@@ -55,4 +55,5 @@ services:
     networks:
       - my-contacts 
 volumes:
-  dbdata1:
+  dbdata:
+  dbadmin:
