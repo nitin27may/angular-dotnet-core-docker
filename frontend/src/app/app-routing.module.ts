@@ -1,12 +1,26 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { NgModule } from "@angular/core";
+import { Routes, RouterModule } from "@angular/router";
+import { AuthGuard } from "@core/guards";
 
-const routes: Routes = [];
+const routes: Routes = [
+  {
+    path: "",
+    loadChildren: () => import("./feature/user/user.module").then((module) => module.UserModule)
+  },
+  {
+    path: "contacts",
+    canActivate: [AuthGuard],
+    loadChildren: () => import("./feature/contact/contact.module").then((module) => module.ContactModule)
+  }
+];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {
-    initialNavigation: 'enabled'
-})],
+  imports: [
+    RouterModule.forRoot(routes, {
+      initialNavigation: "enabled",
+      relativeLinkResolution: "legacy"
+    })
+  ],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
