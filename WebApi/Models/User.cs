@@ -8,7 +8,6 @@ namespace WebApi.Models
 {
     public class User : BaseEntity
     {
-
         [Required]
         public string FirstName { get; set; }
         [Required]
@@ -16,9 +15,7 @@ namespace WebApi.Models
         [Required]
         public string Username { get; set; }
         public string Mobile { get; set; }
-        [Required]
         public string Email { get; set; }
-
         public string Password { get; set; }
     }
 }

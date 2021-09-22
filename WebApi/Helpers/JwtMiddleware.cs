@@ -19,6 +19,7 @@ namespace MySociety.Helpers
         public JwtMiddleware(RequestDelegate next, IOptions<AppSettings> appSettings)
         {
             _next = next;
+            
             _appSettings = appSettings.Value;
         }
 

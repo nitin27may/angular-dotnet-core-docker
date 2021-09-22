@@ -5,15 +5,17 @@ networks:
     driver: bridge 
 
 services:
-  # frontend:
-  #   image: frontend:latest
-  #   depends_on:
-  #     - "api"
-  #   build: 
-  #     context: frontend/.
-  #     dockerfile: debug.dockerfile
-  #   ports: 
-  #     - "4200:4200"
+  frontend:
+    image: frontend:latest
+    depends_on:
+      - "api"
+    build: 
+      context: frontend/.
+      dockerfile: debug.dockerfile
+    volumes:
+      - ./frontend:/app
+    ports: 
+      - "4200:4200"
   api:
     image: api:latest
     depends_on:
@@ -27,14 +29,13 @@ services:
       - ./WebApi:/app
       - ./WebApi:/src
     ports:
-      - "5000:5000"  
-      - "8080:80"     
+      - "8080:8000"  
     environment:
       AppSettings_ConnectionStrings_DefaultConnection: "host=postgres;port=5432;database=contactdb;username=root;password=root"
       DOTNET_USE_POLLING_FILE_WATCHER: 1
-      ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS: true
+      ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS: "true"
       ASPNETCORE_ENVIRONMENT: "Development"
-      #NUGET_PACKAGES: "/root/.nuget/fallbackpackages" 
+      NUGET_PACKAGES: "/root/.nuget/fallbackpackages" 
 
     networks:
       - my-contacts  

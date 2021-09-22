@@ -12,7 +12,7 @@ import { TypeaheadModule } from "ngx-bootstrap/typeahead";
 
 @NgModule({
   imports: [
-    CommonModule,
+    
     TabsModule.forRoot(),
     BsDropdownModule.forRoot(),
     TooltipModule.forRoot(),

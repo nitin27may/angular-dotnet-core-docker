@@ -55,15 +55,23 @@ namespace WebApi
             }
             app.UseMiddleware<SerilogRequestLogger>();
 
-            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>()
-             .CreateScope())
-            {
-                serviceScope.ServiceProvider.GetService<DataContext>()
-                    .Database.Migrate();
-            }
+            //using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>()
+            // .CreateScope())
+            //{
+            //    serviceScope.ServiceProvider.GetService<DataContext>()
+            //        .Database.Migrate();
+            //}
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+             app.UseCors(corsPolicyBuilder => corsPolicyBuilder
+             .WithOrigions(Configuration["AppSettings:CorsAllowdOrigins"].ToString().Split(','))
+             .AllowAnyMethod()
+             .AllowAnyHeader()
+             .AllowCredentials()
+             );
+        
 
             app.UseAuthorization();
 

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Data.Repository;
 using WebApi.Models;
@@ -24,8 +20,8 @@ namespace WebApi.Controllers
         {
             var response = await _userRepository.Add(user);
 
-            //if (response == null)
-            //    return BadRequest(new { message = "User Details are not corre" });
+            if (response == null)
+                return BadRequest(new { message = "user details are not correct" });
 
             return Ok(response);
         }
