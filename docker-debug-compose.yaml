@@ -35,7 +35,6 @@ services:
       DOTNET_USE_POLLING_FILE_WATCHER: 1
       ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS: "true"
       ASPNETCORE_ENVIRONMENT: "Development"
-      NUGET_PACKAGES: "/root/.nuget/fallbackpackages" 
 
     networks:
       - my-contacts  

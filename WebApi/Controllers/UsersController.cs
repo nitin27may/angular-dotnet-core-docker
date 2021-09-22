@@ -15,9 +15,10 @@ namespace WebApi.Controllers
         {
             _userRepository = userRepository;
         }
-        [HttpPost("register")]
+        [HttpPost]
         public async Task<IActionResult> Register(User user)
         {
+            user.Email = user.Username;
             var response = await _userRepository.Add(user);
 
             if (response == null)
