@@ -66,7 +66,7 @@ namespace WebApi
             app.UseRouting();
 
              app.UseCors(corsPolicyBuilder => corsPolicyBuilder
-             .WithOrigions(Configuration["AppSettings:CorsAllowdOrigins"].ToString().Split(','))
+             .WithOrigins(Configuration["AppSettings:CorsAllowdOrigins"].ToString().Split(','))
              .AllowAnyMethod()
              .AllowAnyHeader()
              .AllowCredentials()
