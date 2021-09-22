@@ -101,6 +101,10 @@ namespace WebApi.Data.Repository
         {
             return await _dataContext.Users.FindAsync(id);
         }
+        public async Task<User> FindByEmail(string email)
+        {
+            return  await _dataContext.Users.Where(user => user.Email == email).FirstOrDefaultAsync();
+        }
 
         public async Task<User> Update(User user)
         {

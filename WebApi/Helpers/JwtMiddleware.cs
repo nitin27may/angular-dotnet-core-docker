@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WebApi.Models;
 
-namespace MySociety.Helpers
+namespace WebApi.Helpers
 {
     public class JwtMiddleware
     {

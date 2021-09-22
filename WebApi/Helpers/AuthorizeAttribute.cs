@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 using WebApi.Models;
 
-namespace MySociety.Helpers
+namespace WebApi.Helpers
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false,
                 Inherited = true)]

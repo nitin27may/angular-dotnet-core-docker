@@ -10,6 +10,7 @@ namespace WebApi.Data.Repository
         Task<bool> Delete(long id);
         Task<User> Update(User item);
         Task<User> FindByID(long id);
+         Task<User> FindByEmail(string email);
         Task<IEnumerable<User>> FindAll();
 
         Task<AuthenticateResponse> Authenticate(AuthenticateRequest authenticateRequest);

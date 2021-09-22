@@ -10,7 +10,7 @@ using WebApi.Models;
 
 namespace WebApi.Data.Repository
 {
-    public class ContactRepository 
+    public class ContactRepository : IContactRepository
     {
         private readonly DataContext _dataContext;
         private readonly AppSettings _appSettings;
@@ -54,6 +54,7 @@ namespace WebApi.Data.Repository
 
         public async Task<IEnumerable<Contact>> FindAll()
         {
+            var userDetails = HttpContext.Items["User"];
             return await _dataContext.Contacts.ToListAsync();
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.JsonPatch;
+using WebApi.Helpers;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +11,7 @@ namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [CustomAuthorization]
     public class ContactsController : ControllerBase
     {
         private readonly IContactRepository _contactRepository;
@@ -22,6 +24,8 @@ namespace WebApi.Controllers
         //[CustomAuthorization]
         public async Task<IActionResult> Get()
         {
+            var userDetails = HttpContext.Items["User"];
+            
             var result = await _contactRepository.FindAll();
             return Ok(result);
         }

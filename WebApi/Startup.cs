@@ -17,6 +17,7 @@ using WebApi.Data.Repository;
 using WebApi.Helpers;
 using WebApi.Models;
 
+
 namespace WebApi
 {
     public class Startup
@@ -41,6 +42,7 @@ namespace WebApi
 
             services.AddDbContext<DataContext>(p => p.UseNpgsql(Configuration.GetSection("AppSettings:ConnectionStrings:DefaultConnection").Value));
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IContactRepository, ContactRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -63,6 +65,8 @@ namespace WebApi
             //}
             app.UseHttpsRedirection();
 
+            // custom jwt auth middleware
+            app.UseMiddleware<JwtMiddleware>();
             app.UseRouting();
 
              app.UseCors(corsPolicyBuilder => corsPolicyBuilder

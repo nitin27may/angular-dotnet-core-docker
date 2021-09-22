@@ -18,6 +18,10 @@ namespace WebApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(User user)
         {
+            var userDetails = await _userRepository.FindByEmail(user.Username);
+            if (userDetails != null){
+                return BadRequest(new { message = "user name/email is already exist" });
+            }
             user.Email = user.Username;
             var response = await _userRepository.Add(user);
 
