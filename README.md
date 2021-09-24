@@ -1,3 +1,10 @@
+# **Work in Progress**
+[WIP]
+
+
+
+
+
 ### About (Dotnet - Angular - PostgresSQL)
 This project is intended to provide a starting point for building full-stack web applicatioin. The stack is made of Dotnet WebApi, Angular, PostgresSQL. The focus of this project to show case the possible way to run a real application (Dotnet, Angular and PostgresSQL) using docker for development enviornment and produciton mode.
 ## To Quick Run
