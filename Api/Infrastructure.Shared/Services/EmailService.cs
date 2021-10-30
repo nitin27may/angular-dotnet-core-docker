@@ -7,18 +7,21 @@ using MailKit.Security;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MimeKit;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 using System.Threading.Tasks;
+using SendGridSettings = Domain.Settings.SendGridSettings;
 
 namespace Infrastructure.Shared.Services
 {
     public class EmailService : IEmailService
     {
-        public MailSettings _mailSettings { get; }
+        public SendGridSettings _sendGridSettings { get; }
         public ILogger<EmailService> _logger { get; }
 
-        public EmailService(IOptions<MailSettings> mailSettings,ILogger<EmailService> logger)
+        public EmailService(IOptions<Domain.Settings.SendGridSettings> sendGridSettings,ILogger<EmailService> logger)
         {
-            _mailSettings = mailSettings.Value;
+            _sendGridSettings = sendGridSettings.Value;
             _logger = logger;
         }
 
@@ -26,20 +29,21 @@ namespace Infrastructure.Shared.Services
         {
             try
             {
-                // create message
-                var email = new MimeMessage();
-                email.Sender = new MailboxAddress(_mailSettings.DisplayName, request.From ?? _mailSettings.EmailFrom);
-                email.To.Add(MailboxAddress.Parse(request.To));
-                email.Subject = request.Subject;
-                var builder = new BodyBuilder();
-                builder.HtmlBody = request.Body;
-                email.Body = builder.ToMessageBody();
-                using var smtp = new SmtpClient();
-                smtp.Connect(_mailSettings.SmtpHost, _mailSettings.SmtpPort, SecureSocketOptions.StartTls);
-                smtp.Authenticate(_mailSettings.SmtpUser, _mailSettings.SmtpPass);
-                await smtp.SendAsync(email);
-                smtp.Disconnect(true);
 
+
+                var apiKey = _sendGridSettings.Key;
+                var client = new SendGridClient(apiKey);
+                var from = new EmailAddress(_sendGridSettings.EmailFrom, _sendGridSettings.DisplayName);
+                var subject = request.Subject;
+                var to = new EmailAddress(request.To);
+               // var plainTextContent = "and easy to do anywhere, even with C#";
+                var htmlContent = request.Body;
+                var msg = MailHelper.CreateSingleEmail(from, to, subject, "", htmlContent);
+                var response = await client.SendEmailAsync(msg);
+                if (response.IsSuccessStatusCode != true)
+                {
+                    throw new ApiException($"Email not sent with status code { response.StatusCode }");
+                }
             }
             catch (System.Exception ex)
             {
