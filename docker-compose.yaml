@@ -5,37 +5,59 @@ networks:
     driver: bridge 
 
 services:
-  frontend:
-    image: frontend:latest
-    depends_on:
-      - "api"
-    build: 
-      context: frontend/.
-      dockerfile: Dockerfile
-    ports: 
-      - "4000:4000"
-  api:
-    image: api:latest
+  # frontend:
+  #   image: frontend:latest
+  #   depends_on:
+  #     - "api"
+  #   build: 
+  #     context: frontend/.
+  #     dockerfile: Dockerfile
+  #   ports: 
+  #     - "4000:4000"
+  db-migration:
     depends_on:
       - "postgres"
     build:
-      context: WebApi/.
+      context: Api/.
+      dockerfile: Migration.Dockerfile
+    environment:
+      ConnectionStrings:DefaultConnection: "Host=postgres;Port=5432;Database=contactdb;username=root;password=root"
+      ConnectionStrings:IdentityConnection: "host=postgres;port=5432;database=identitydb;username=root;password=root"
+    networks:
+      - my-contacts  
+
+  api:
+    image: api:latest
+    restart: always
+    depends_on:
+      - "db-migration"
+    #command: ["dotnet", "ef" ,"database", "update", "--startup-project", "WebApi.csproj", "-c", "IdentityContext"]    
+    build:
+      context: Api/.
       dockerfile: Dockerfile
     ports:
-      - "8000:80"     
+      - "8000:80" 
     environment:
-      ConnectionStrings_DefaultConnection: "host=postgres;port=5432;database=contactdb;username=root;password=root"
+      ConnectionStrings:DefaultConnection: "Host=postgres;Port=5432;Database=contactdb;username=root;password=root"
+      ConnectionStrings:IdentityConnection: "host=postgres;port=5432;database=identitydb;username=root;password=root"
+      SendGridSettings:EmailFrom: "singhknitin@hotmail.com"
+      SendGridSettings:Key: "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"
+      SendGridSettings:DisplayName: "Nitin Singh"
     networks:
       - my-contacts  
   postgres:
-    image: postgres
     restart: always
+    build:
+      context: postgres/.
+      dockerfile: Dockerfile
     environment:
+      POSTGRES_MULTIPLE_DATABASES: contactdb,identitydb
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
-      POSTGRES_DB: contactdb
+      
     volumes:
-      - dbdata1:/var/lib/postgresql/data
+      #- dbdata1:/var/lib/postgresql/data
+      - ./postgres:/docker-entrypoint-initdb.d
       # - ./dbscripts/seed.sql :/docker-entrypoint-initdb.d/seed.sql
     ports:
       - "5432:5432"

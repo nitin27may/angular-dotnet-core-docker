@@ -1,11 +1,8 @@
-#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
+FROM mcr.microsoft.com/dotnet/sdk:5.0
 
-FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS base
-WORKDIR /app
-EXPOSE 80
-EXPOSE 443
+RUN dotnet tool install --global dotnet-ef
+ENV PATH="${PATH}:/root/.dotnet/tools"
 
-FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
 COPY ["WebApi/WebApi.csproj", "WebApi/"]
 COPY ["Application/Application.csproj", "Application/"]
@@ -14,14 +11,16 @@ COPY ["Infrastructure.Shared/Infrastructure.Shared.csproj", "Infrastructure.Shar
 COPY ["Infrastructure.Identity/Infrastructure.Identity.csproj", "Infrastructure.Identity/"]
 COPY ["Infrastructure.Persistence/Infrastructure.Persistence.csproj", "Infrastructure.Persistence/"]
 RUN dotnet restore "WebApi/WebApi.csproj"
+
 COPY . .
+
 WORKDIR "/src/WebApi"
-RUN dotnet build "WebApi.csproj" -o /app/build
 
-FROM build AS publish
-RUN dotnet publish "WebApi.csproj" -c Release -o /app/publish
+ADD migration_script.sh  /
 
-FROM base AS final
-WORKDIR /app
-COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "WebApi.dll"]
+RUN chmod +x /migration_script.sh
+
+CMD ["/migration_script.sh"]
+
+
+#CMD ["dotnet", "ef" ,"database", "update", "--startup-project", "WebApi.csproj", "-c", "IdentityContext"]
