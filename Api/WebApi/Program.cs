@@ -25,14 +25,23 @@ namespace WebApi
                 .AddJsonFile("appsettings.json")
                 .Build();
 
+            //   var environmentName = Environment.GetEnvironmentVariable("DOTNETCORE_ENVIRONMENT");
+            // var builder = new ConfigurationBuilder()
+            // .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+            // .AddJsonFile($"appsettings.{environmentName}.json", optional: true);
+            // var config = builder.Build();
+
             //Initialize Logger
             Log.Logger = new LoggerConfiguration()
                 .ReadFrom.Configuration(config)
                 .CreateLogger();
             var host = CreateHostBuilder(args).Build();
+
+            
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
+                
                 var loggerFactory = services.GetRequiredService<ILoggerFactory>();
                 try
                 {

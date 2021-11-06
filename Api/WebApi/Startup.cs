@@ -45,6 +45,7 @@ namespace WebApi
                 app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
+            
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthentication();

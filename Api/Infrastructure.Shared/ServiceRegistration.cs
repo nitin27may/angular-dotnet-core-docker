@@ -10,7 +10,7 @@ namespace Infrastructure.Shared
     {
         public static void AddSharedInfrastructure(this IServiceCollection services, IConfiguration _config)
         {
-            services.Configure<MailSettings>(_config.GetSection("MailSettings"));
+            services.Configure<SendGridSettings>(_config.GetSection("SendGridSettings"));
             services.AddTransient<IDateTimeService, DateTimeService>();
             services.AddTransient<IEmailService, EmailService>();
         }

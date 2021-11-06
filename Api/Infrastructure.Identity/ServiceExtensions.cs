@@ -33,11 +33,15 @@ namespace Infrastructure.Identity
             else
             {
                 services.AddDbContext<IdentityContext>(options =>
-                options.UseSqlServer(
+                options.UseNpgsql(
                     configuration.GetConnectionString("IdentityConnection"),
                     b => b.MigrationsAssembly(typeof(IdentityContext).Assembly.FullName)));
+
+                  
             }
             services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<IdentityContext>().AddDefaultTokenProviders();
+           
+
             #region Services
             services.AddTransient<IAccountService, AccountService>();
             #endregion
