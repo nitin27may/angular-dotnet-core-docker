@@ -28,7 +28,7 @@ namespace Infrastructure.Identity
             if (configuration.GetValue<bool>("UseInMemoryDatabase"))
             {
                 services.AddDbContext<IdentityContext>(options =>
-                    options.UseInMemoryDatabase("IdentityDb"));
+                    options.UseInMemoryDatabase("contactdb"));
             }
             else
             {
