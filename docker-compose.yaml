@@ -28,27 +28,28 @@ services:
     networks:
       - my-contacts  
 
-  # api:
-  #   # image: api:latest
-  #   #restart: always
-  #   depends_on:
-  #     - db-migration  
-  #   command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; dotnet WebApi.dll'    
-  #   build:
-  #     context: Api/.
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - 8000:80 
-  #   links:
-  #     - db
-  #   environment:
-  #     ConnectionStrings:DefaultConnection: "Server=db;Database=contactdb;username=root;password=root"
-  #     ConnectionStrings:IdentityConnection: "Server=db;database=contactdb;username=root;password=root"
-  #     SendGridSettings:EmailFrom: "singhknitin@hotmail.com"
-  #     SendGridSettings:Key: ""
-  #     SendGridSettings:DisplayName: "Nitin Singh"
-  #   networks:
-  #     - my-contacts  
+  api:
+    # image: api:latest
+    #restart: always
+    depends_on:
+       postgres:
+          condition: service_healthy
+    #command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; dotnet WebApi.dll'    
+    build:
+      context: Api/.
+      dockerfile: Dockerfile
+    ports:
+      - 8000:80 
+    links:
+      - postgres
+    environment:
+      ConnectionStrings:DefaultConnection: "Server=postgres;Database=contactdb;username=root;password=root"
+      ConnectionStrings:IdentityConnection: "Server=postgres;database=contactdb;username=root;password=root"
+      SendGridSettings:EmailFrom: "singhknitin@hotmail.com"
+      SendGridSettings:Key: ""
+      SendGridSettings:DisplayName: "Nitin Singh"
+    networks:
+      - my-contacts  
   postgres:
     container_name: pg_container
     image: postgres
