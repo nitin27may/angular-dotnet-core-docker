@@ -65,12 +65,15 @@ namespace Infrastructure.Identity.Services
             {
                 throw new ApiException($"Account Not Confirmed for '{request.Email}'.");
             }
+            
             JwtSecurityToken jwtSecurityToken = await GenerateJWToken(user);
             AuthenticationResponse response = new AuthenticationResponse();
             response.Id = user.Id;
             response.JWToken = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
             response.Email = user.Email;
             response.UserName = user.UserName;
+            response.FirstName = user.FirstName;
+            response.LastName = user.LastName;
             var rolesList = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
             response.Roles = rolesList.ToList();
             response.IsVerified = user.EmailConfirmed;
