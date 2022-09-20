@@ -23,7 +23,7 @@ export class ContactFormComponent implements OnInit {
 
   createForm(): void {
     this.contactForm = this.formBuilder.group({
-      _id: ["", []],
+      id: ["", []],
       firstName: ["", [Validators.required, Validators.minLength(2), Validators.maxLength(35)]],
       lastName: ["", [Validators.required, Validators.minLength(2), Validators.maxLength(35)]],
       email: ["", [Validators.required, this.validationService.emailValidator]],
@@ -35,7 +35,7 @@ export class ContactFormComponent implements OnInit {
 
   reset(): void {
     const contact = this.contactForm.value;
-    if (contact._id) {
+    if (contact.id) {
       this.getContactDetails();
     } else {
       this.contactForm.reset();
@@ -44,7 +44,7 @@ export class ContactFormComponent implements OnInit {
   }
   submit(): void {
     const contact = this.contactForm.value;
-    if (contact._id) {
+    if (contact.id) {
       this.update(contact);
     } else {
       delete contact._id;

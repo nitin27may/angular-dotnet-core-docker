@@ -34,7 +34,7 @@ export class ContactListComponent implements OnInit {
   }
   onSelect(selected: any): void {
     console.log("Select Event", selected, this.selected);
-    this.router.navigate(["/contacts/details/" + this.selected[0]._id]);
+    this.router.navigate(["/contacts/details/" + this.selected[0].id]);
   }
   ngOnInit(): void {
     this.getAll();
