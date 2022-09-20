@@ -5,15 +5,15 @@ networks:
     driver: bridge 
 
 services:
-  # frontend:
-  #   image: frontend:latest
-  #   depends_on:
-  #     - "api"
-  #   build: 
-  #     context: frontend/.
-  #     dockerfile: Dockerfile
-  #   ports: 
-  #     - "4000:4000"
+  frontend:
+    image: frontend:latest
+    depends_on:
+      - "api"
+    build: 
+      context: frontend/.
+      dockerfile: Dockerfile
+    ports: 
+      - "4000:4000"
   db-migration:
     depends_on:
         postgres:
@@ -46,7 +46,7 @@ services:
       ConnectionStrings:DefaultConnection: "Server=postgres;Database=contactdb;username=root;password=root"
       ConnectionStrings:IdentityConnection: "Server=postgres;database=contactdb;username=root;password=root"
       SendGridSettings:EmailFrom: "singhknitin@hotmail.com"
-      SendGridSettings:Key: ""
+      SendGridSettings:Key: "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"
       SendGridSettings:DisplayName: "Nitin Singh"
     networks:
       - my-contacts  
@@ -79,6 +79,16 @@ services:
     ports:
       - 5050:80
     networks:
-      - my-contacts 
+      - my-contacts
+
+  nginx: #name of the fourth service
+    build: loadbalancer # specify the directory of the Dockerfile
+    container_name: loadbalancer_nginx
+    restart: always
+    ports:
+      - "80:80" #specify ports forewarding
+    links:
+      - api
+      - frontend
 volumes:
   dbdata1:

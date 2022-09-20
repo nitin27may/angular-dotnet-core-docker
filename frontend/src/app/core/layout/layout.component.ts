@@ -12,7 +12,7 @@ export class LayoutComponent implements OnInit {
 
   ngOnInit() {}
 
-  receiveCollapsed($event: any) {
+  receiveCollapsed($event) {
     this.collapedSideBar = $event;
   }
 }

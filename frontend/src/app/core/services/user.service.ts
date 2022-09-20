@@ -28,7 +28,6 @@ export class UserService {
       const user = JSON.parse(localStorage.getItem("currentUser"));
       return user;
     }
-    return null;
   }
 
   create(user: User) {
