@@ -12,14 +12,14 @@ export class LoginService {
 
   login(username: string, password: string) {
     return this.http
-      .post<any>(environment.apiEndpoint + "/user/authenticate", {
-        username: username,
+      .post<any>(environment.apiEndpoint + "/account/authenticate", {
+        email: username,
         password: password
       })
       .pipe(
         map((user) => {
           // login successful if there"s a jwt token in the response
-          if (user && user.data && user.data.token) {
+          if (user && user.data && user.data.jwToken) {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
             if (typeof window !== "undefined") {
               localStorage.setItem("currentUser", JSON.stringify(user.data));

@@ -1,10 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { UserService } from "@core/services/user.service";
 import { User } from "@core/models/user.interface";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { UntypedFormGroup, UntypedFormBuilder, Validators } from "@angular/forms";
 import { ToastrService } from "ngx-toastr";
-import { ValidationService } from "@core/components";
 import { Router } from "@angular/router";
+import { ValidationService } from "@core/components/validation-errors/validation-messages.service";
 
 @Component({
   selector: "app-profile",
@@ -13,11 +13,11 @@ import { Router } from "@angular/router";
 })
 export class ProfileComponent implements OnInit {
   user: User;
-  profileForm: FormGroup;
-  passwordForm: FormGroup;
+  profileForm: UntypedFormGroup;
+  passwordForm: UntypedFormGroup;
   constructor(
     private usreService: UserService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private validationService: ValidationService,
     private toastrService: ToastrService,
     private router: Router
@@ -76,10 +76,20 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getCurrentuser();
     this.createProfileForm();
     this.createPasswordForm();
     this.user = this.usreService.getCurrentUser();
     this.profileForm.patchValue(this.user);
     this.passwordForm.get("username").patchValue(this.user.username);
+
+  }
+  getCurrentuser(){
+    this.usreService.getCurrentUserProfile().subscribe(
+      (data) => {
+       console.log("User Profile", data);
+      },
+      (error) => {}
+    );
   }
 }

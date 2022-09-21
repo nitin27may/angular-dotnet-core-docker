@@ -9,7 +9,7 @@ export class UserService {
   constructor(private http: HttpClient) {}
 
   getAll() {
-    return this.http.get<User[]>(environment.apiEndpoint + "/users").pipe(
+    return this.http.get<User[]>(environment.apiEndpoint + "/account/register").pipe(
       map((users: any) => {
         return users.data;
       })
@@ -28,11 +28,19 @@ export class UserService {
       const user = JSON.parse(localStorage.getItem("currentUser"));
       return user;
     }
-    return null;
+  }
+
+  getCurrentUserProfile() {
+    return this.http.get<any>(environment.apiEndpoint + "/account/profile").pipe(
+      map((user: any) => {
+        return user;
+      })
+    );
   }
 
   create(user: User) {
-    return this.http.post(environment.apiEndpoint + "/users", user);
+    user.email = user.username;
+    return this.http.post(environment.apiEndpoint + "/account/register", user);
   }
 
   update(user: User) {

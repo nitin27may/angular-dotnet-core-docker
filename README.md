@@ -1,12 +1,6 @@
-# **Work in Progress**
-[WIP]
-
-
-
-
-
+# Full Stack (dotnet, angular and postgres) boilerplate with Docker
 ### About (Dotnet - Angular - PostgresSQL)
-This project is intended to provide a starting point for building full-stack web applicatioin. The stack is made of Dotnet WebApi, Angular, PostgresSQL. The focus of this project to show case the possible way to run a real application (Dotnet, Angular and PostgresSQL) using docker for development enviornment and produciton mode.
+This project is intended to provide a starting point for building full-stack web applicatioin. The stack is made of Dotnet(6) WebApi, Angular (14), PostgresSQL. The focus of this project to show case the possible way to run a real application (Dotnet, Angular and PostgresSQL) using docker for development enviornment and produciton mode.
 ## To Quick Run
 Clone repo, navigate to root folder and run ` docker-compose -f 'docker-compose.yml' up`
 
@@ -31,7 +25,7 @@ Also, rest services are secure using JWT.
 
 
 ### Built With
-#### Angular (12.1.2)
+#### Angular (14.2.2)
 
 In MEAN stack A stands for Angular, fronend of this project is developed in Angular.
 
@@ -49,7 +43,7 @@ For folder structure details refer this link: [Frontend Folder Structure] (/docs
 **[Dockerfile for Production](/frontend/Dockerfile)**
 **[Dockerfile for Development](/frontend/debug.dockerfile)**
 
-#### Dotnet (5.0.0)
+#### Dotnet (6.0.0)
 
 In MEAN stack, E stands for Expressjs, all rest services are developed using express js.
 
@@ -62,8 +56,8 @@ It contains sample for:
 5. Complete CRUD example for Contact
 
 
-**[Dockerfile for production](/WebApi/Dockerfile)**
-**[Dockerfile for development](/WebApi/debug.dockerfile)**
+**[Dockerfile for production](/Api/Dockerfile)**
+**[Dockerfile for development](/Api/debug.dockerfile)**
 
 
 ## Getting started
@@ -72,6 +66,13 @@ It contains sample for:
 
 #### Prerequisite
 Install latest [Docker Desktop](https://www.docker.com/products/docker-desktop)
+
+
+#### Entity Framework Migration
+We have added a dockerfile for entity framework migration and updating database. 
+
+**[Dockerfile for Migration](/Api/Migration.Dockerfile)**
+
 
 #### Development mode:
   You can start the application in debug mode (database, api and frontend) using docker-compose:

@@ -1,9 +1,9 @@
 import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { ValidationService } from "@core/components";
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms";
 import { ContactService } from "../contact.service";
 import { Router, ActivatedRoute } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
+import { ValidationService } from "@core/components/validation-errors/validation-messages.service";
 
 @Component({
   selector: "app-contact-form",
@@ -11,9 +11,9 @@ import { ToastrService } from "ngx-toastr";
   styleUrls: ["./contact-form.component.scss"]
 })
 export class ContactFormComponent implements OnInit {
-  contactForm: FormGroup;
+  contactForm: UntypedFormGroup;
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private router: Router,
     private validationService: ValidationService,
     private contactService: ContactService,
@@ -23,7 +23,7 @@ export class ContactFormComponent implements OnInit {
 
   createForm(): void {
     this.contactForm = this.formBuilder.group({
-      _id: ["", []],
+      id: ["", []],
       firstName: ["", [Validators.required, Validators.minLength(2), Validators.maxLength(35)]],
       lastName: ["", [Validators.required, Validators.minLength(2), Validators.maxLength(35)]],
       email: ["", [Validators.required, this.validationService.emailValidator]],
@@ -34,11 +34,17 @@ export class ContactFormComponent implements OnInit {
   }
 
   reset(): void {
-    this.createForm();
+    const contact = this.contactForm.value;
+    if (contact.id) {
+      this.getContactDetails();
+    } else {
+      this.contactForm.reset();
+    }
+
   }
   submit(): void {
     const contact = this.contactForm.value;
-    if (contact._id) {
+    if (contact.id) {
       this.update(contact);
     } else {
       delete contact._id;
@@ -68,6 +74,10 @@ export class ContactFormComponent implements OnInit {
   }
   ngOnInit(): void {
     this.createForm();
+    this.getContactDetails();
+  }
+
+  private getContactDetails() {
     const contactDetails = this.activatedRoute.snapshot.data.contactDetails;
     if (contactDetails) {
       this.contactForm.patchValue(contactDetails);

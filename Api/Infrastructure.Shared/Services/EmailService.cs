@@ -29,14 +29,11 @@ namespace Infrastructure.Shared.Services
         {
             try
             {
-
-
                 var apiKey = _sendGridSettings.Key;
                 var client = new SendGridClient(apiKey);
                 var from = new EmailAddress(_sendGridSettings.EmailFrom, _sendGridSettings.DisplayName);
                 var subject = request.Subject;
                 var to = new EmailAddress(request.To);
-               // var plainTextContent = "and easy to do anywhere, even with C#";
                 var htmlContent = request.Body;
                 var msg = MailHelper.CreateSingleEmail(from, to, subject, "", htmlContent);
                 var response = await client.SendEmailAsync(msg);

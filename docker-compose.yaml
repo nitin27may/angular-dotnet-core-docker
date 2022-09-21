@@ -5,62 +5,57 @@ networks:
     driver: bridge 
 
 services:
-  # frontend:
-  #   image: frontend:latest
-  #   depends_on:
-  #     - "api"
-  #   build: 
-  #     context: frontend/.
-  #     dockerfile: Dockerfile
-  #   ports: 
-  #     - "4000:4000"
-  db-migration:
+  frontend:
+    image: frontend:latest
     depends_on:
-      - "postgres"
-    build:
-      context: Api/.
-      dockerfile: Migration.Dockerfile
-    environment:
-      ConnectionStrings:DefaultConnection: "Host=postgres;Port=5432;Database=contactdb;username=root;password=root"
-      ConnectionStrings:IdentityConnection: "host=postgres;port=5432;database=contactdb;username=root;password=root"
+      - "api"
+    build: 
+      context: frontend/.
+      dockerfile: Dockerfile
+    ports: 
+      - "4000:4000"
     networks:
-      - my-contacts  
+      - my-contacts 
 
   api:
-    image: api:latest
-    restart: always
+    # image: api:latest
+    #restart: always
     depends_on:
-      - "db-migration"
-    #command: ["dotnet", "ef" ,"database", "update", "--startup-project", "WebApi.csproj", "-c", "IdentityContext"]    
+       postgres:
+          condition: service_healthy
+    #command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; dotnet WebApi.dll'    
     build:
       context: Api/.
       dockerfile: Dockerfile
     ports:
-      - "8000:80" 
+      - 8000:80 
+    links:
+      - postgres
     environment:
-      ConnectionStrings:DefaultConnection: "Host=postgres;Port=5432;Database=contactdb;username=root;password=root"
-      ConnectionStrings:IdentityConnection: "host=postgres;port=5432;database=contactdb;username=root;password=root"
+      ConnectionStrings:DefaultConnection: "Server=postgres;Database=contactdb;username=root;password=root"
+      ConnectionStrings:IdentityConnection: "Server=postgres;database=contactdb;username=root;password=root"
       SendGridSettings:EmailFrom: "singhknitin@hotmail.com"
       SendGridSettings:Key: ""
       SendGridSettings:DisplayName: "Nitin Singh"
     networks:
       - my-contacts  
   postgres:
+    container_name: pg_container
+    image: postgres
     restart: always
-    build:
-      context: postgres/.
-      dockerfile: Dockerfile
     environment:
-      POSTGRES_MULTIPLE_DATABASES: contactdb,identitydb
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
-      
-    volumes:
-      #- dbdata1:/var/lib/postgresql/data
-      - ./postgres:/docker-entrypoint-initdb.d
-      # - ./dbscripts/seed.sql :/docker-entrypoint-initdb.d/seed.sql
+      POSTGRES_DB: contactdb
     ports:
-      - "5432:5432"
+      - 5432:5432
+    volumes:
+     - dbdata1:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U root -d contactdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     networks:
       - my-contacts  
 
@@ -71,7 +66,33 @@ services:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
       PGADMIN_DEFAULT_PASSWORD: root
     ports:
-      - "5050:80"
+      - 5050:80
+    networks:
+      - my-contacts
+
+  db-migration:
+    depends_on:
+        postgres:
+          condition: service_healthy
+          
+    build:
+      context: Api/.
+      dockerfile: Migration.Dockerfile
+    environment:
+      ConnectionStrings:DefaultConnection: "Server=postgres;Database=contactdb;username=root;password=root"
+      ConnectionStrings:IdentityConnection: "Server=postgres;database=contactdb;username=root;password=root"
+    networks:
+      - my-contacts  
+
+  nginx: #name of the fourth service
+    build: loadbalancer # specify the directory of the Dockerfile
+    container_name: loadbalancer_nginx
+    restart: always
+    ports:
+      - "80:80" #specify ports forewarding
+    links:
+      - api
+      - frontend
     networks:
       - my-contacts 
 volumes:

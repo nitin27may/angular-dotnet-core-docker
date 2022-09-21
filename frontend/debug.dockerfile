@@ -1,20 +1,19 @@
-# Create image based off of the official Node 16 image
-FROM node:16.9.1-alpine
+# Create image based off of the official 12.8-alpine
+FROM node:18.9.0-alpine3.16
 
-# Copy dependency definitions
-COPY package.json ./
-
-## installing and Storing node modules on a separate layer will prevent unnecessary npm installs at each build
-RUN npm i --force && mkdir /app && mv ./node_modules ./app
-
-RUN npm i -g @angular/cli
-# Change directory so that our commands run inside this new directory
+#RUN echo "nameserver 8.8.8.8" |  tee /etc/resolv.conf > /dev/null
 WORKDIR /app
 
-# Get all the code needed to run the app
+# Copy dependency definitions
+COPY package*.json ./
+
+## installing and Storing node modules on a separate layer will prevent unnecessary npm installs at each build
+RUN npm i --legacy-peer-deps
+
+RUN npm install -g @angular/cli
+
 COPY . /app/
 
-# Expose the port the app runs in
-EXPOSE 4200
+EXPOSE 4200 49153
 
-CMD [ "npm", "run", "start:proxy" ]
+

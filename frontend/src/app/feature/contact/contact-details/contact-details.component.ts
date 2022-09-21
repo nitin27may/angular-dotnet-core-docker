@@ -11,7 +11,7 @@ export class ContactDetailsComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute, private router: Router) {}
 
   edit(): void {
-    this.router.navigate(["/contacts/edit/" + this.contact._id]);
+    this.router.navigate(["/contacts/edit/" + this.contact.id]);
   }
   ngOnInit(): void {
     this.contact = this.activatedRoute.snapshot.data.contactDetails;

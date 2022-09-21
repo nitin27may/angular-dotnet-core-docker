@@ -16,25 +16,31 @@ services:
       - ./frontend:/app
     ports: 
       - "4200:4200"
+    networks:
+      - my-contacts 
   api:
     image: api:latest
     depends_on:
       - "postgres"
     build:
-      context: WebApi/
+      context: Api/
       dockerfile: debug.dockerfile
     restart: always
     
     volumes:
-      - ./WebApi:/app
-      - ./WebApi:/src
+      - ./Api:/app
+      - ./Api:/src
     ports:
       - "8080:8000"  
     environment:
-      AppSettings_ConnectionStrings_DefaultConnection: "host=postgres;port=5432;database=contactdb;username=root;password=root"
       DOTNET_USE_POLLING_FILE_WATCHER: 1
       ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS: "true"
       ASPNETCORE_ENVIRONMENT: "Development"
+      ConnectionStrings:DefaultConnection: "Server=postgres;Database=contactdb;username=root;password=root"
+      ConnectionStrings:IdentityConnection: "Server=postgres;database=contactdb;username=root;password=root"
+      SendGridSettings:EmailFrom: "singhknitin@hotmail.com"
+      SendGridSettings:Key: ""
+      SendGridSettings:DisplayName: "Nitin Singh"
 
     networks:
       - my-contacts  

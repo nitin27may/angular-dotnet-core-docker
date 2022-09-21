@@ -8,7 +8,7 @@ import { BootstrapModule } from "./bootstrap.module";
 @NgModule({
   declarations: [],
   imports: [CommonModule, FormsModule, ReactiveFormsModule, HttpClientModule, RouterModule, BootstrapModule],
-  exports: [ FormsModule, ReactiveFormsModule, HttpClientModule, RouterModule, BootstrapModule]
+  exports: [CommonModule, FormsModule, ReactiveFormsModule, HttpClientModule, RouterModule, BootstrapModule]
 })
 export class SharedModule {
   static forRoot(): ModuleWithProviders<SharedModule> {

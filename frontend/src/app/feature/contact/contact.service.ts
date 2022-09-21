@@ -11,35 +11,35 @@ export class ContactService {
   constructor(private http: HttpClient) {}
 
   getAll() {
-    return this.http.get<any[]>(environment.apiEndpoint + "/contacts").pipe(
+    return this.http.get<any[]>(environment.apiEndpoint + "/v1/contact").pipe(
       map((res: any) => res.data),
       catchError(this.handleErrorObservable)
     );
   }
 
-  getById(_id: string) {
-    return this.http.get(environment.apiEndpoint + "/contact/" + _id).pipe(
+  getById(id: string) {
+    return this.http.get(environment.apiEndpoint + "/v1/contact/" + id).pipe(
       map((res: any) => res.data),
       catchError(this.handleErrorObservable)
     );
   }
 
   create(contact: any) {
-    return this.http.post(environment.apiEndpoint + "/contacts", contact).pipe(
+    return this.http.post(environment.apiEndpoint + "/v1/contact", contact).pipe(
       map((res: any) => res.data),
       catchError(this.handleErrorObservable)
     );
   }
 
   update(contact: any) {
-    return this.http.put(environment.apiEndpoint + "/contact/" + contact._id, contact).pipe(
+    return this.http.put(environment.apiEndpoint + "/v1/contact/" + contact.id, contact).pipe(
       map((res: any) => res.data),
       catchError(this.handleErrorObservable)
     );
   }
 
-  delete(_id: string) {
-    return this.http.delete(environment.apiEndpoint + "/contact/" + _id).pipe(
+  delete(id: string) {
+    return this.http.delete(environment.apiEndpoint + "/v1/contact/" + id).pipe(
       map((res: any) => res.data),
       catchError(this.handleErrorObservable)
     );
