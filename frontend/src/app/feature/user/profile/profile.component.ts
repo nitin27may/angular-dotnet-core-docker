@@ -76,10 +76,20 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getCurrentuser();
     this.createProfileForm();
     this.createPasswordForm();
     this.user = this.usreService.getCurrentUser();
     this.profileForm.patchValue(this.user);
     this.passwordForm.get("username").patchValue(this.user.username);
+
+  }
+  getCurrentuser(){
+    this.usreService.getCurrentUserProfile().subscribe(
+      (data) => {
+       console.log("User Profile", data);
+      },
+      (error) => {}
+    );
   }
 }

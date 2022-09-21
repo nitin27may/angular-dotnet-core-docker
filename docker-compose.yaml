@@ -14,19 +14,8 @@ services:
       dockerfile: Dockerfile
     ports: 
       - "4000:4000"
-  db-migration:
-    depends_on:
-        postgres:
-          condition: service_healthy
-          
-    build:
-      context: Api/.
-      dockerfile: Migration.Dockerfile
-    environment:
-      ConnectionStrings:DefaultConnection: "Server=postgres;Database=contactdb;username=root;password=root"
-      ConnectionStrings:IdentityConnection: "Server=postgres;database=contactdb;username=root;password=root"
     networks:
-      - my-contacts  
+      - my-contacts 
 
   api:
     # image: api:latest
@@ -81,6 +70,20 @@ services:
     networks:
       - my-contacts
 
+  db-migration:
+    depends_on:
+        postgres:
+          condition: service_healthy
+          
+    build:
+      context: Api/.
+      dockerfile: Migration.Dockerfile
+    environment:
+      ConnectionStrings:DefaultConnection: "Server=postgres;Database=contactdb;username=root;password=root"
+      ConnectionStrings:IdentityConnection: "Server=postgres;database=contactdb;username=root;password=root"
+    networks:
+      - my-contacts  
+
   nginx: #name of the fourth service
     build: loadbalancer # specify the directory of the Dockerfile
     container_name: loadbalancer_nginx
@@ -90,5 +93,7 @@ services:
     links:
       - api
       - frontend
+    networks:
+      - my-contacts 
 volumes:
   dbdata1:

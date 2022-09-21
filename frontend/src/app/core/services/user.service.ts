@@ -30,6 +30,14 @@ export class UserService {
     }
   }
 
+  getCurrentUserProfile() {
+    return this.http.get<any>(environment.apiEndpoint + "/account/profile").pipe(
+      map((user: any) => {
+        return user;
+      })
+    );
+  }
+
   create(user: User) {
     user.email = user.username;
     return this.http.post(environment.apiEndpoint + "/account/register", user);
