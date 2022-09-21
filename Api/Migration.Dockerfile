@@ -1,8 +1,8 @@
-FROM mcr.microsoft.com/dotnet/sdk:5.0
+FROM mcr.microsoft.com/dotnet/sdk:6.0.401
 
 ENV PATH="${PATH}:/root/.dotnet/tools"
 
-RUN dotnet tool install --global dotnet-ef  --version 5.0.11
+RUN dotnet tool install --global dotnet-ef  --version 6.0.9
 
 WORKDIR /src
 COPY ["WebApi/WebApi.csproj", "WebApi/"]
@@ -22,8 +22,4 @@ ADD migration_script.sh  .
 
 RUN chmod +x ./migration_script.sh
 
-#ENTRYPOINT ["/src/WebApi/migration_script.sh"]
 CMD /bin/bash ./migration_script.sh
-
-
-#CMD ["dotnet", "ef" ,"database", "update", "--startup-project", "WebApi.csproj"]
