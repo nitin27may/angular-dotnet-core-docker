@@ -10,6 +10,8 @@ Clone repo, navigate to root folder and run ` docker-compose -f 'docker-compose.
   docker-compose -f 'docker-compose.yml' up
 ```
 
+**Please note,** I have used Sendgrid, so it will require a sendgrid key to run, as it is sending an email confirmation on register, if you do not need, you can remove that code while registeing (in AccountService Class)
+
 ## About Project
 
 This is a simple web application. It has working user registration, login page and there is a complete example of CRUD which contains example for Angular Routing and dotnet rest api samples. Also, rest services are secure using JWT. 
@@ -67,11 +69,13 @@ It contains sample for:
 ### Using Docker
 
 #### Prerequisite
-Install latest [Docker Desktop](https://www.docker.com/products/docker-desktop)
+  
+  Install latest [Docker Desktop](https://www.docker.com/products/docker-desktop)
 
 
 #### Entity Framework Migration
-We have added a dockerfile for entity framework migration and updating database. 
+
+ We have added a dockerfile for entity framework migration and updating database. 
 
 **[Dockerfile for Migration](/Api/Migration.Dockerfile)**
 
@@ -86,6 +90,6 @@ We have added a dockerfile for entity framework migration and updating database.
   docker-compose -f 'docker-compose.debug.yml' up
   ```
 
-  It will run fronend `http://localhost:4200` and api on `http://localhost:8080`. you can also access PGAdmin  on port 80 with username pssword provided in docker-compose, username: nitin27may@gmail.com, password: root.
+  It will run fronend `http://localhost:4200` and api on `http://localhost:8080`. you can also access PGAdmin  on port 5050 with username pssword provided in docker-compose, username: nitin27may@gmail.com, password: root.
 
   Also, it will automatically refresh (hot reload) your UI for code and api code changes.
