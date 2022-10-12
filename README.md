@@ -10,6 +10,16 @@ Clone repo, navigate to root folder and run ` docker-compose -f 'docker-compose.
   docker-compose -f 'docker-compose.yml' up
 ```
 
+**Please note,** I have used Sendgrid, so it will require a sendgrid key to run, as it is sending an email confirmation on register, if you do not need, you can remove that code while registeing (in AccountService Class)
+
+## About Project
+
+This is a simple web application. It has working user registration, login page and there is a complete example of CRUD which contains example for Angular Routing and dotnet rest api samples. Also, rest services are secure using JWT. 
+
+Below is the architecture of the application while it is running.
+
+![](documents/architecture.png)
+
 ## Project Folders 
 The apps written in the following JavaScript frameworks/libraries:
 
@@ -18,16 +28,10 @@ The apps written in the following JavaScript frameworks/libraries:
 | **frontend** | [frontend app using **Angular**](https://github.com/nitin27may/angular-dotnet-core-docker/tree/master/frontend)         |
 | **WebApi** | [Rest Api using **dotnet**](https://github.com/nitin27may/angular-dotnet-core-docker/tree/master/WebApi) |
 
-## About Project
-
-This is a simple web application. It has working user registration, login page and there is a complete example of CRUD which contains example for Angular Routing and exprtess js rest api samples.
-Also, rest services are secure using JWT. 
-
-
 ### Built With
 #### Angular (14.2.2)
 
-In MEAN stack A stands for Angular, fronend of this project is developed in Angular.
+In MEAN stack A stands for Angular, fronend of this project is developed in Angular. As we are using Server Side Rendering (SSR) we have used Nodejs alpine image in place of other lightweight docker image like nginx to run Angular app.
 
 It contains sample for below:
 
@@ -65,7 +69,16 @@ It contains sample for:
 ### Using Docker
 
 #### Prerequisite
-Install latest [Docker Desktop](https://www.docker.com/products/docker-desktop)
+  
+  Install latest [Docker Desktop](https://www.docker.com/products/docker-desktop)
+
+
+#### Entity Framework Migration
+
+ We have added a dockerfile for entity framework migration and updating database. 
+
+**[Dockerfile for Migration](/Api/Migration.Dockerfile)**
+
 
 
 #### Entity Framework Migration
@@ -84,6 +97,6 @@ We have added a dockerfile for entity framework migration and updating database.
   docker-compose -f 'docker-compose.debug.yml' up
   ```
 
-  It will run fronend `http://localhost:4200` and api on `http://localhost:8080`. you can also access PGAdmin  on port 80 with username pssword provided in docker-compose, username: nitin27may@gmail.com, password: root.
+  It will run fronend `http://localhost:4200` and api on `http://localhost:8080`. you can also access PGAdmin  on port 5050 with username pssword provided in docker-compose, username: nitin27may@gmail.com, password: root.
 
   Also, it will automatically refresh (hot reload) your UI for code and api code changes.

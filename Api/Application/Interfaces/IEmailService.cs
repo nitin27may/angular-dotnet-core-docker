@@ -1,13 +1,9 @@
 ﻿using Application.DTOs.Email;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Interfaces
+namespace Application.Interfaces;
+
+public interface IEmailService
 {
-    public interface IEmailService
-    {
-        Task SendAsync(EmailRequest request);
-    }
+    Task SendAsync(EmailRequest request);
 }

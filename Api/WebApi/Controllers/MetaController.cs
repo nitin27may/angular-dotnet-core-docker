@@ -1,19 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace WebApi.Controllers
+namespace WebApi.Controllers;
+
+public class MetaController : BaseApiController
 {
-    public class MetaController : BaseApiController
+    [HttpGet("/api/info")]
+    public ActionResult<string> Info()
     {
-        [HttpGet("/info")]
-        public ActionResult<string> Info()
-        {
-            var assembly = typeof(Startup).Assembly;
+        var assembly = typeof(Startup).Assembly;
 
-            var lastUpdate = System.IO.File.GetLastWriteTime(assembly.Location);
-            var version = FileVersionInfo.GetVersionInfo(assembly.Location).ProductVersion;
+        var lastUpdate = System.IO.File.GetLastWriteTime(assembly.Location);
+        var version = FileVersionInfo.GetVersionInfo(assembly.Location).ProductVersion;
 
-            return Ok($"Version: {version}, Last Updated: {lastUpdate}");
-        }
+        return Ok($"Version: {version}, Last Updated: {lastUpdate}");
     }
 }

@@ -6,27 +6,26 @@ using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.Features.Contacts.Queries.GetContactById
+namespace Application.Features.Contacts.Queries.GetContactById;
+
+public class GetContactByIdQuery : IRequest<Response<Contact>>
 {
-    public class GetContactByIdQuery : IRequest<Response<Contact>>
+    public int Id { get; set; }
+
+    public class GetContactByIdQueryHandler : IRequestHandler<GetContactByIdQuery, Response<Contact>>
     {
-        public int Id { get; set; }
+        private readonly IContactRepositoryAsync _contactRepository;
 
-        public class GetContactByIdQueryHandler : IRequestHandler<GetContactByIdQuery, Response<Contact>>
+        public GetContactByIdQueryHandler(IContactRepositoryAsync contactRepository)
         {
-            private readonly IContactRepositoryAsync _contactRepository;
+            _contactRepository = contactRepository;
+        }
 
-            public GetContactByIdQueryHandler(IContactRepositoryAsync contactRepository)
-            {
-                _contactRepository = contactRepository;
-            }
-
-            public async Task<Response<Contact>> Handle(GetContactByIdQuery query, CancellationToken cancellationToken)
-            {
-                var contact = await _contactRepository.GetByIdAsync(query.Id);
-                if (contact == null) throw new ApiException($"Contact Not Found.");
-                return new Response<Contact>(contact);
-            }
+        public async Task<Response<Contact>> Handle(GetContactByIdQuery query, CancellationToken cancellationToken)
+        {
+            var contact = await _contactRepository.GetByIdAsync(query.Id);
+            if (contact == null) throw new ApiException($"Contact Not Found.");
+            return new Response<Contact>(contact);
         }
     }
 }
