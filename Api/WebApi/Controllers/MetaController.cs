@@ -5,7 +5,7 @@ namespace WebApi.Controllers
 {
     public class MetaController : BaseApiController
     {
-        [HttpGet("/info")]
+        [HttpGet("/api/info")]
         public ActionResult<string> Info()
         {
             var assembly = typeof(Startup).Assembly;
