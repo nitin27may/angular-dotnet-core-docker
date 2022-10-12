@@ -242,6 +242,7 @@ public class AccountService : IAccountService
         {
             throw new ApiException($"Error occured while reseting the password.");
         }
+    }
 
     public async Task<UserDetailsDto> GetAsync(string email, CancellationToken cancellationToken)
     {

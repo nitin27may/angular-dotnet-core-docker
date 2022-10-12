@@ -1,6 +1,12 @@
 # Full Stack (dotnet, angular and postgres) boilerplate with Docker
 ### About (Dotnet - Angular - PostgresSQL)
 This project is intended to provide a starting point for building full-stack web applicatioin. The stack is made of Dotnet(6) WebApi, Angular (14), PostgresSQL. The focus of this project to show case the possible way to run a real application (Dotnet, Angular and PostgresSQL) using docker for development enviornment and produciton mode.
+
+This is a simple web application. It has working user registration, login page and there is a complete example of CRUD which contains example for Angular Routing and dotnet rest api samples. Also, rest services are secure using JWT. 
+
+Below is the architecture of the application while it is running.
+
+![](documents/architecture.png)
 ## To Quick Run
 Clone repo, navigate to root folder and run ` docker-compose -f 'docker-compose.yml' up`
 
@@ -11,14 +17,6 @@ Clone repo, navigate to root folder and run ` docker-compose -f 'docker-compose.
 ```
 
 **Please note,** I have used Sendgrid, so it will require a sendgrid key to run, as it is sending an email confirmation on register, if you do not need, you can remove that code while registeing (in AccountService Class)
-
-## About Project
-
-This is a simple web application. It has working user registration, login page and there is a complete example of CRUD which contains example for Angular Routing and dotnet rest api samples. Also, rest services are secure using JWT. 
-
-Below is the architecture of the application while it is running.
-
-![](documents/architecture.png)
 
 ## Project Folders 
 The apps written in the following JavaScript frameworks/libraries:
@@ -31,7 +29,7 @@ The apps written in the following JavaScript frameworks/libraries:
 ### Built With
 #### Angular (14.2.2)
 
-In MEAN stack A stands for Angular, fronend of this project is developed in Angular. As we are using Server Side Rendering (SSR) we have used Nodejs alpine image in place of other lightweight docker image like nginx to run Angular app.
+The fronend of this project is developed in Angular. As we are using Server Side Rendering (SSR) we have used Nodejs alpine image in place of other lightweight docker image like nginx to run Angular app.
 
 It contains sample for below:
 
@@ -42,7 +40,6 @@ It contains sample for below:
 
 Also, it has sample code for Auth guard, services, http interceptors, resolver and JWT implementation
 
-For folder structure details refer this link: [Frontend Folder Structure] (/docs/angular-frontend-structure.md)
 
 **[Dockerfile for Production](/frontend/Dockerfile)**
 **[Dockerfile for Development](/frontend/debug.dockerfile)**
@@ -76,13 +73,6 @@ It contains sample for:
 #### Entity Framework Migration
 
  We have added a dockerfile for entity framework migration and updating database. 
-
-**[Dockerfile for Migration](/Api/Migration.Dockerfile)**
-
-
-
-#### Entity Framework Migration
-We have added a dockerfile for entity framework migration and updating database. 
 
 **[Dockerfile for Migration](/Api/Migration.Dockerfile)**
 
