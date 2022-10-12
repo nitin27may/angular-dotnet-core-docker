@@ -31,7 +31,7 @@ The apps written in the following JavaScript frameworks/libraries:
 ### Built With
 #### Angular (14.2.2)
 
-In MEAN stack A stands for Angular, fronend of this project is developed in Angular.
+In MEAN stack A stands for Angular, fronend of this project is developed in Angular. As we are using Server Side Rendering (SSR) we have used Nodejs alpine image in place of other lightweight docker image like nginx to run Angular app.
 
 It contains sample for below:
 
