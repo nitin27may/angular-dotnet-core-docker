@@ -10,6 +10,14 @@ Clone repo, navigate to root folder and run ` docker-compose -f 'docker-compose.
   docker-compose -f 'docker-compose.yml' up
 ```
 
+## About Project
+
+This is a simple web application. It has working user registration, login page and there is a complete example of CRUD which contains example for Angular Routing and dotnet rest api samples. Also, rest services are secure using JWT. 
+
+Below is the architecture of the application while it is running.
+
+![](documents/architecture.png)
+
 ## Project Folders 
 The apps written in the following JavaScript frameworks/libraries:
 
@@ -17,12 +25,6 @@ The apps written in the following JavaScript frameworks/libraries:
 | --------------- | -------------------------------------------------------------------------------------------- |
 | **frontend** | [frontend app using **Angular**](https://github.com/nitin27may/angular-dotnet-core-docker/tree/master/frontend)         |
 | **WebApi** | [Rest Api using **dotnet**](https://github.com/nitin27may/angular-dotnet-core-docker/tree/master/WebApi) |
-
-## About Project
-
-This is a simple web application. It has working user registration, login page and there is a complete example of CRUD which contains example for Angular Routing and exprtess js rest api samples.
-Also, rest services are secure using JWT. 
-
 
 ### Built With
 #### Angular (14.2.2)
