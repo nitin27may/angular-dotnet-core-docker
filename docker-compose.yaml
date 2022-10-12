@@ -28,7 +28,7 @@ services:
       context: Api/.
       dockerfile: Dockerfile
     ports:
-      - 8000:80 
+      - 8000:8000 
     links:
       - postgres
     environment:
