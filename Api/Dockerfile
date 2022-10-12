@@ -4,7 +4,10 @@ FROM mcr.microsoft.com/dotnet/aspnet:6.0.9 AS base
 WORKDIR /app
 EXPOSE 8000
 ENV ASPNETCORE_URLS=http://+:8000
-#EXPOSE 443
+RUN groupadd -g 2000 dotnet \
+    && useradd -m -u 2000 -g 2000 dotnet
+USER dotnet
+
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0.401 AS build
 WORKDIR /src
