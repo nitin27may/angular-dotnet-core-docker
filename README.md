@@ -80,6 +80,13 @@ It contains sample for:
 **[Dockerfile for Migration](/Api/Migration.Dockerfile)**
 
 
+
+#### Entity Framework Migration
+We have added a dockerfile for entity framework migration and updating database. 
+
+**[Dockerfile for Migration](/Api/Migration.Dockerfile)**
+
+
 #### Development mode:
   You can start the application in debug mode (database, api and frontend) using docker-compose:
 
