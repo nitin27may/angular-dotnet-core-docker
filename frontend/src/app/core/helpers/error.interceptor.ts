@@ -18,7 +18,7 @@ export class ErrorInterceptor implements HttpInterceptor {
               break;
             case 400: // forbidden
               // show server bad request message
-              this.toastrService.error(errorResponse.error?.Message, null, { timeOut: 10000 });
+              this.toastrService.error(errorResponse.error?.Message);
               break;
             case 500:
               this.toastrService.error("Please contact to Support Team.", null, { timeOut: 10000 });

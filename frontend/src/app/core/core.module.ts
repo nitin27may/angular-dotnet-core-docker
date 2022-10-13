@@ -15,7 +15,7 @@ import { NumberOnlyDirective } from "./directives/number-only.directive";
   imports: [
     CommonModule,
     HttpClientModule,
-    ToastrModule.forRoot({ positionClass: 'inline' }),
+    ToastrModule.forRoot(),
     LayoutModule,
     ValidaionErrorsModule.forRoot({
       errors: {

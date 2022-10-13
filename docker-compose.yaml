@@ -34,9 +34,6 @@ services:
     environment:
       ConnectionStrings:DefaultConnection: "Server=postgres;Database=contactdb;username=root;password=root"
       ConnectionStrings:IdentityConnection: "Server=postgres;database=contactdb;username=root;password=root"
-      SendGridSettings:EmailFrom: "singhknitin@hotmail.com"
-      SendGridSettings:Key: ""
-      SendGridSettings:DisplayName: "Nitin Singh"
     networks:
       - my-contacts  
   postgres:

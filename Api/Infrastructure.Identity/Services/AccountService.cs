@@ -97,7 +97,8 @@ public class AccountService : IAccountService
             Email = request.Email,
             FirstName = request.FirstName,
             LastName = request.LastName,
-            UserName = request.UserName
+            UserName = request.UserName,
+            EmailConfirmed = true // TODO: If implementing email verification, don't set it to true
         };
         var userWithSameEmail = await _userManager.FindByEmailAsync(request.Email);
         if (userWithSameEmail == null)
@@ -107,9 +108,10 @@ public class AccountService : IAccountService
             {
                 await _userManager.AddToRoleAsync(user, Roles.Basic.ToString());
                 var verificationUri = await SendVerificationEmail(user, origin);
-                //TODO: Attach Email Service here and configure it via appsettings
-                await _emailService.SendAsync(new Application.DTOs.Email.EmailRequest() { From = "nitin27may@gmail.com", To = user.Email, Body = $"Please confirm your account by visiting this URL {verificationUri}", Subject = "Confirm Registration" });
-                return new Response<string>(user.Id, message: $"User Registered. Please confirm your account by visiting this URL {verificationUri}");
+                //TODO: If implementing email verification Attach Email Service here (uncomment it) and configure variables via appsettings
+                // await _emailService.SendAsync(new Application.DTOs.Email.EmailRequest() { From = "nitin27may@gmail.com", To = user.Email, Body = $"Please confirm your account by visiting this URL {verificationUri}", Subject = "Confirm Registration" });
+                //return new Response<string>(user.Id, message: $"User Registered. Please confirm your account by visiting this URL {verificationUri}");
+                return new Response<string>(user.Id, message: $"User Registered.");
             }
             else
             {
