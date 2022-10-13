@@ -46,7 +46,7 @@ Also, it has sample code for Auth guard, services, http interceptors, resolver a
 
 #### Dotnet (6.0.0)
 
-In MEAN stack, E stands for Expressjs, all rest services are developed using express js.
+Rest APis of this project is devloped using dotnet
 
 It contains sample for:
 
