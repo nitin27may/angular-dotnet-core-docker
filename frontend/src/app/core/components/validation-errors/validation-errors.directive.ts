@@ -129,7 +129,7 @@ export class ValidationErrorsDirective implements OnInit, OnDestroy {
    * Explicit showing of a control error via some custom application code.
    */
   showError(): void {
-    this.showError$.next();
+    this.showError$.next(true);
   }
 
   /**
@@ -140,7 +140,7 @@ export class ValidationErrorsDirective implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.destroy.next();
+    this.destroy.next(true);
     this.clearRefs();
   }
 
