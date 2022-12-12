@@ -1,6 +1,6 @@
 #See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
-FROM mcr.microsoft.com/dotnet/aspnet:6.0.9 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:7 AS base
 WORKDIR /app
 EXPOSE 8000
 ENV ASPNETCORE_URLS=http://+:8000
@@ -9,7 +9,7 @@ RUN groupadd -g 2000 dotnet \
 USER dotnet
 
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0.401 AS build
+FROM mcr.microsoft.com/dotnet/sdk:7 AS build
 WORKDIR /src
 COPY ["WebApi/WebApi.csproj", "WebApi/"]
 COPY ["Application/Application.csproj", "Application/"]
