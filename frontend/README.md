@@ -1,6 +1,6 @@
 # Frontend (Angular)
 
-Frontend for application using Angular (updated to 14.2.2)
+Frontend for application using Angular (updated to 16.2.10)
 
 ## Development server
 
@@ -17,7 +17,7 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 ```dockerfile
 # Create image based off of the official Node 10 image
-FROM node:16-alpine as builder
+FROM node:18.9.0-alpine3.16 as builder
 
 # Copy dependency definitions
 COPY package.json package-lock.json ./
@@ -37,7 +37,7 @@ COPY . /app/
 # Build server side bundles
 RUN npm run build:ssr
 
-FROM node:14.5-alpine
+FROM node:18.9.0-alpine3.16
 ## From 'builder' copy published folder
 COPY --from=builder /app/dist/frontend /app
 
