@@ -37,7 +37,6 @@ public static class ServiceExtensions
         }
         services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<IdentityContext>().AddDefaultTokenProviders();
 
-
         #region Services
         services.AddTransient<IAccountService, AccountService>();
         #endregion
@@ -88,5 +87,7 @@ public static class ServiceExtensions
                     },
                 };
             });
+
+
     }
 }

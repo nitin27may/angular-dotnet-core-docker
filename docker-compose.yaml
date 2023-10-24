@@ -7,6 +7,7 @@ networks:
 services:
   frontend:
     image: frontend:latest
+    container_name: frontend_container
     depends_on:
       - "api"
     build: 
@@ -19,11 +20,12 @@ services:
 
   api:
     # image: api:latest
-    #restart: always
+    container_name: api_container
+    restart: always
     depends_on:
        postgres:
           condition: service_healthy
-    #command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; dotnet WebApi.dll'    
+    command: bash -c 'while !</dev/tcp/db/5432; do sleep 5; done; dotnet WebApi.dll'    
     build:
       context: Api/.
       dockerfile: Dockerfile
@@ -57,6 +59,7 @@ services:
       - my-contacts  
 
   pgadmin:
+    container_name: pg_admin_container
     image: dpage/pgadmin4
     restart: always
     environment:
@@ -67,23 +70,9 @@ services:
     networks:
       - my-contacts
 
-  db-migration:
-    depends_on:
-        postgres:
-          condition: service_healthy
-          
-    build:
-      context: Api/.
-      dockerfile: Migration.Dockerfile
-    environment:
-      ConnectionStrings:DefaultConnection: "Server=postgres;Database=contactdb;username=root;password=root"
-      ConnectionStrings:IdentityConnection: "Server=postgres;database=contactdb;username=root;password=root"
-    networks:
-      - my-contacts  
-
   nginx: #name of the fourth service
-    build: loadbalancer # specify the directory of the Dockerfile
     container_name: loadbalancer_nginx
+    build: loadbalancer # specify the directory of the Dockerfile
     restart: always
     ports:
       - "80:80" #specify ports forewarding
