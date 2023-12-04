@@ -1,6 +1,6 @@
 # Full Stack (dotnet, angular and postgres) boilerplate with Docker
 ### About (Dotnet - Angular - PostgresSQL)
-This project is intended to provide a starting point for building full-stack web applicatioin. The stack is made of Dotnet(7) WebApi, Angular (16.2.10), PostgresSQL. The focus of this project to show case the possible way to run a real application (Dotnet, Angular and PostgresSQL) using docker for development enviornment and produciton mode.
+This project is intended to provide a starting point for building full-stack web applicatioin. The stack is made of Dotnet(7) WebApi, Angular (17.0.3), PostgresSQL. The focus of this project to show case the possible way to run a real application (Dotnet, Angular and PostgresSQL) using docker for development enviornment and produciton mode.
 
 This is a simple web application. It has working user registration, login page and there is a complete example of CRUD which contains example for Angular Routing and dotnet rest api samples. Also, rest services are secure using JWT. 
 
@@ -27,7 +27,7 @@ The apps written in the following JavaScript frameworks/libraries:
 | **WebApi** | [Rest Api using **dotnet**](https://github.com/nitin27may/angular-dotnet-core-docker/tree/master/WebApi) |
 
 ### Built With
-#### Angular (16.2.10)
+#### Angular (17.0.3)
 
 The fronend of this project is developed in Angular. As we are using Server Side Rendering (SSR) we have used Nodejs alpine image in place of other lightweight docker image like nginx to run Angular app.
 
@@ -44,7 +44,7 @@ Also, it has sample code for Auth guard, services, http interceptors, resolver a
 **[Dockerfile for Production](/frontend/Dockerfile)**
 **[Dockerfile for Development](/frontend/debug.dockerfile)**
 
-#### Dotnet (7.0.0)
+#### Dotnet (8.0.0)
 
 Rest APis of this project is devloped using dotnet
 
