@@ -24,7 +24,7 @@ services:
       - "postgres"
     build:
       context: Api/
-      dockerfile: debug.dockerfile
+      dockerfile: Debug.Dockerfile
     restart: always
     
     volumes:
