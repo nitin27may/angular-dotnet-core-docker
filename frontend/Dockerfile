@@ -5,7 +5,8 @@ FROM node:21-alpine as builder
 COPY package.json package-lock.json ./
 
 ## installing and Storing node modules on a separate layer will prevent unnecessary npm installs at each build
-RUN npm i --legacy-peer-deps && mkdir /app && mv ./node_modules ./app
+## --legacy-peer-deps as ngx-bootstrap still depends on Angular 14
+RUN npm i && mkdir /app && mv ./node_modules ./app
 
 # Change directory so that our commands run inside this new directory
 WORKDIR /app
@@ -13,8 +14,8 @@ WORKDIR /app
 # Get all the code needed to run the app
 COPY . /app/
 
-# Build  bundles
-RUN npm run build:output
+# Build server side bundles
+RUN npm run build
 
 FROM node:21-alpine
 ## From 'builder' copy published folder
@@ -26,4 +27,4 @@ EXPOSE 4000
 
 USER node
 
-CMD ["node", "dist/frontend/server/main.js"]
+CMD ["node", "dist/contacts/server/server.mjs"]
