@@ -70,10 +70,10 @@ export class ContactFormComponent implements OnInit {
     }
     submit(): void {
         const contact = this.contactForm.value;
-        if (contact._id) {
+        if (contact.id) {
             this.update(contact);
         } else {
-            delete contact._id;
+            delete contact.id;
             this.save(contact);
         }
     }
@@ -110,6 +110,7 @@ export class ContactFormComponent implements OnInit {
     }
 
     private getContactDetails() {
+      console.log("data", this.activatedRoute.snapshot.data);
         const contactDetails = this.activatedRoute.snapshot.data.contactDetails;
         if (contactDetails) {
             this.contactForm.patchValue(contactDetails);

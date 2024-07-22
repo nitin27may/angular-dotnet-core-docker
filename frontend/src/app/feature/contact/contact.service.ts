@@ -37,7 +37,7 @@ export class ContactService {
 
     update(contact: any) {
         return this.http
-            .put(environment.apiEndpoint + '/v1/contact/' + contact._id, contact)
+            .put(environment.apiEndpoint + '/v1/contact/' + contact.id, contact)
             .pipe(
                 map((res: any) => res.data),
                 catchError(this.handleErrorObservable)
