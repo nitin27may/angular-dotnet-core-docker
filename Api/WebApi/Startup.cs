@@ -1,16 +1,20 @@
+using System;
 using Application;
 using Application.Interfaces;
 using Infrastructure.Identity;
 using Infrastructure.Identity.Contexts;
+using Infrastructure.Identity.Models;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.Contexts;
 using Infrastructure.Shared;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using WebApi.Extensions;
 using WebApi.Services;
 
@@ -36,7 +40,7 @@ public class Startup
         services.AddScoped<IAuthenticatedUserService, AuthenticatedUserService>();
     }
 
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    public async void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
         if (env.IsDevelopment())
         {
@@ -70,6 +74,31 @@ public class Startup
         {
             var context = serviceScope.ServiceProvider.GetService<IdentityContext>();
             context.Database.Migrate();
+        }
+
+        using (var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+        {
+            var services = scope.ServiceProvider;
+
+            var loggerFactory = services.GetRequiredService<ILoggerFactory>();
+            try
+            {
+                var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+                var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+
+                 await Infrastructure.Identity.Seeds.DefaultRoles.SeedAsync(userManager, roleManager);
+                 await Infrastructure.Identity.Seeds.DefaultSuperAdmin.SeedAsync(userManager, roleManager);
+                 await Infrastructure.Identity.Seeds.DefaultBasicUser.SeedAsync(userManager, roleManager);
+              
+            }
+            catch (Exception ex)
+            {
+                
+            }
+            finally
+            {
+                
+            }
         }
     }
 }
