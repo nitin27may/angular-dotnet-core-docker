@@ -33,13 +33,22 @@ export class UserService {
   }
 
   create(user: User) {
-    return this.http.post(environment.apiEndpoint + "/users", user);
+    user.email = user.username;
+    return this.http.post(environment.apiEndpoint + "/account/register", user);
   }
 
   update(user: User) {
     return this.http.put<User>(environment.apiEndpoint + "/user/" + user._id, user).pipe(
       map((user: any) => {
         return user.data;
+      })
+    );
+  }
+
+  getCurrentUserProfile() {
+    return this.http.get<any>(environment.apiEndpoint + "/account/profile").pipe(
+      map((user: any) => {
+        return user;
       })
     );
   }

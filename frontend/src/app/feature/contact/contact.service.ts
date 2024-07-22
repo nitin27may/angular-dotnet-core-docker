@@ -13,14 +13,14 @@ export class ContactService {
     constructor(private http: HttpClient) {}
 
     getAll() {
-        return this.http.get<any[]>(environment.apiEndpoint + '/contacts').pipe(
+        return this.http.get<any[]>(environment.apiEndpoint + '/v1/contact').pipe(
             map((res: any) => res.data),
             catchError(this.handleErrorObservable)
         );
     }
 
     getById(_id: string) {
-        return this.http.get(environment.apiEndpoint + '/contact/' + _id).pipe(
+        return this.http.get(environment.apiEndpoint + '/v1/contact/' + _id).pipe(
             map((res: any) => res.data),
             catchError(this.handleErrorObservable)
         );
@@ -28,7 +28,7 @@ export class ContactService {
 
     create(contact: any) {
         return this.http
-            .post(environment.apiEndpoint + '/contacts', contact)
+            .post(environment.apiEndpoint + '/v1/contact', contact)
             .pipe(
                 map((res: any) => res.data),
                 catchError(this.handleErrorObservable)
@@ -37,7 +37,7 @@ export class ContactService {
 
     update(contact: any) {
         return this.http
-            .put(environment.apiEndpoint + '/contact/' + contact._id, contact)
+            .put(environment.apiEndpoint + '/v1/contact/' + contact._id, contact)
             .pipe(
                 map((res: any) => res.data),
                 catchError(this.handleErrorObservable)
@@ -46,7 +46,7 @@ export class ContactService {
 
     delete(_id: string) {
         return this.http
-            .delete(environment.apiEndpoint + '/contact/' + _id)
+            .delete(environment.apiEndpoint + '/v1/contact/' + _id)
             .pipe(
                 map((res: any) => res.data),
                 catchError(this.handleErrorObservable)

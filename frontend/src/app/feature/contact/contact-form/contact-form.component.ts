@@ -33,7 +33,7 @@ export class ContactFormComponent implements OnInit {
 
     createForm(): void {
         this.contactForm = this.formBuilder.group({
-            _id: ['', []],
+            id: ['', []],
             firstName: [
                 '',
                 [
@@ -62,7 +62,7 @@ export class ContactFormComponent implements OnInit {
 
     reset(): void {
         const contact = this.contactForm.value;
-        if (contact._id) {
+        if (contact.id) {
             this.getContactDetails();
         } else {
             this.contactForm.reset();

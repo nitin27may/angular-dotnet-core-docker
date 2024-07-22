@@ -1,37 +1,18 @@
-﻿import {
-    HTTP_INTERCEPTORS,
-    HttpEvent,
-    HttpHandler,
-    HttpInterceptor,
-    HttpRequest,
-} from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+﻿import { HttpInterceptorFn } from '@angular/common/http';
 
-@Injectable()
-export class JwtInterceptor implements HttpInterceptor {
-    intercept(
-        request: HttpRequest<any>,
-        next: HttpHandler
-    ): Observable<HttpEvent<any>> {
-        // add authorization header with jwt token if available
-        if (typeof window !== 'undefined') {
-            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-            if (currentUser && currentUser.token) {
-                request = request.clone({
-                    setHeaders: {
-                        Authorization: `Bearer ${currentUser.token}`,
-                    },
-                });
-            }
-        }
+export const JwtInterceptor: HttpInterceptorFn = (request, next) => {
 
-        return next.handle(request);
+  if (typeof window !== 'undefined') {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (currentUser && currentUser.jwToken) {
+      console.log('currentUser.jwToken', currentUser.jwToken);
+        request = request.clone({
+            setHeaders: {
+                Authorization: `Bearer ${currentUser.jwToken}`,
+            },
+        });
     }
 }
 
-export const JwtInterceptorProvider = {
-    provide: HTTP_INTERCEPTORS,
-    useClass: JwtInterceptor,
-    multi: true,
+return next(request);
 };

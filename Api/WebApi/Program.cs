@@ -25,33 +25,8 @@ public class Program
             .ReadFrom.Configuration(config)
             .CreateLogger();
         var host = CreateHostBuilder(args).Build();
-
-        using (var scope = host.Services.CreateScope())
-        {
-            var services = scope.ServiceProvider;
-
-            var loggerFactory = services.GetRequiredService<ILoggerFactory>();
-            try
-            {
-                var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
-                var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-
-                await Infrastructure.Identity.Seeds.DefaultRoles.SeedAsync(userManager, roleManager);
-                await Infrastructure.Identity.Seeds.DefaultSuperAdmin.SeedAsync(userManager, roleManager);
-                await Infrastructure.Identity.Seeds.DefaultBasicUser.SeedAsync(userManager, roleManager);
-                Log.Information("Finished Seeding Default Data");
-                Log.Information("Application Starting");
-                host.Run();
-            }
-            catch (Exception ex)
-            {
-                Log.Warning(ex, "An error occurred seeding the DB");
-            }
-            finally
-            {
-                Log.CloseAndFlush();
-            }
-        }
+        host.Run();
+       
     }
 
     public static IHostBuilder CreateHostBuilder(string[] args) =>
